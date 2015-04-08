@@ -16,6 +16,13 @@ ENV MONGODB_VERSION         2.4
 ENV IMAGE_DESCRIPTION       MongoDB 2.4
 ENV IMAGE_TAGS              mongodb,mongodb24
 ENV IMAGE_EXPOSE_SERVICES   27017:mongodb
+ENV container docker
+
+LABEL RUN docker run -d -v ${DATADIR}:/var/lib/mongodb/data IMAGE 
+LABEL INSTALL="docker run --rm --privileged -v /:/host -e HOST=/host -e LOGDIR=${LOGDIR} -e CONFDIR=${CONFDIR} -e DATADIR=${DATADIR} -e IMAGE=IMAGE -e NAME=NAME IMAGE /bin/install.sh"
+LABEL UNINSTALL="docker run --rm --privileged -v /:/host -e HOST=/host -e IMAGE=IMAGE -e NAME=NAME IMAGE /bin/uninstall.sh"
+ADD root /
+
 
 EXPOSE 27017
 
@@ -24,10 +31,13 @@ EXPOSE 27017
 # change, the last test is there to make sure of that.
 # Due to the https://bugzilla.redhat.com/show_bug.cgi?id=1206151,
 # the whole /var/lib/mongodb/ dir has to be chown-ed.
+
 RUN yum install -y yum-utils && \
-    yum-config-manager --enable rhel-server-rhscl-7-rpms && \
-    yum-config-manager --enable rhel-7-server-optional-rpms && \
+    yum-config-manager --disable \* && \
+    yum-config-manager --enable rhel-7-server-rpms --enable rhel-7-server-extras-rpms --enable rhel-7-server-optional-rpms && \
+    yum-config-manager --enable rhel-server-rhscl-7-rpms --enable rhel-7-server-optional-rpms && \
     yum install -y --setopt=tsflags=nodocs gettext v8314 mongodb24-mongodb mongodb24 && \
+    yum erase -y yum-utils python-kitchen python-chardet && \
     yum clean all && \
     mkdir -p /var/lib/mongodb/data && chown -R mongodb.mongodb /var/lib/mongodb/ && \
     test "$(id mongodb)" = "uid=184(mongodb) gid=998(mongodb) groups=998(mongodb)"
