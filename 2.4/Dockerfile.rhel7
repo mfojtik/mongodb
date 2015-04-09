@@ -18,7 +18,7 @@ ENV IMAGE_TAGS              mongodb,mongodb24
 ENV IMAGE_EXPOSE_SERVICES   27017:mongodb
 ENV container docker
 
-LABEL RUN docker run -d -v ${DATADIR}:/var/lib/mongodb/data IMAGE 
+LABEL RUN docker run -d -e MONGODB_USERNAME=mongodb-user -e MONGODB_PASSWORD=pa55word -e MONGODB_ADMIN_PASSWORD=admpa55word -e MONGODB_DATABASE=testing -v ${DATADIR}:/var/lib/mongodb/data IMAGE 
 LABEL INSTALL="docker run --rm --privileged -v /:/host -e HOST=/host -e LOGDIR=${LOGDIR} -e CONFDIR=${CONFDIR} -e DATADIR=${DATADIR} -e IMAGE=IMAGE -e NAME=NAME IMAGE /bin/install.sh"
 LABEL UNINSTALL="docker run --rm --privileged -v /:/host -e HOST=/host -e IMAGE=IMAGE -e NAME=NAME IMAGE /bin/uninstall.sh"
 ADD root /

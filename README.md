@@ -79,13 +79,39 @@ You can also set following mount points by passing `-v /host:/container` flag to
 
 |  Volume mount point         | Description            |
 | :-------------------------- | ---------------------- |
-|  `/var/lib/mongodb/data`   | MongoDB data directory |
+|  `/var/lib/mongodb/data`    | MongoDB data directory |
 
 
 Usage
 ---------------------------------
 
 We will assume that you are using the `openshift/mongodb-24-centos7` image.
+
+With the current version, two alternative ways of running the image are provided
+* **atomic run**
+
+  Using the atomic tool (https://github.com/projectatomic/atomic) your are able to 
+  install and run a mongoDB container. This container will have some defaults 
+  for a set of environment variables:
+
+  |    Variable name          |    Value                                    |
+  | :------------------------ | -----------------------------------------   |
+  |  `MONGODB_USERNAME`       | mongodb-user                                | 
+  |  `MONGODB_PASSWORD`       | pa55word                                    |
+  |  `MONGODB_DATABASE`       | admpa55word                                 |
+  |  `MONGODB_ADMIN_PASSWORD` | testing                                     |
+
+  Additionally data is stored to /var/lib/mongodb-24-centos7/ on the host.
+
+  So to set up the data directory you simply cal ```atomic install openshift/mongodb-24-centos7```, it
+  will involve a previleged container to run /usr/bin/install.sh (which will actually
+  create the directory on the host.
+
+  To start the container ```atomic run openshift/mongodb-24-centos7```.
+
+
+* **docker run**
+
 Suppose that you want to set only mandatory required environment variables and
 store the database in the `/home/user/database` directory on the host filesystem,
 you need to execute the following command:
