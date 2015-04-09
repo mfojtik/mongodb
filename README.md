@@ -90,7 +90,7 @@ We will assume that you are using the `openshift/mongodb-24-centos7` image.
 With the current version, two alternative ways of running the image are provided
 * **atomic run**
 
-  Using the atomic tool (https://github.com/projectatomic/atomic) your are able to 
+  Using the atomic tool (https://github.com/projectatomic/atomic) you are able to 
   install and run a mongoDB container. This container will have some defaults 
   for a set of environment variables:
 
