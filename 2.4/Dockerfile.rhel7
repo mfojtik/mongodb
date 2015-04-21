@@ -30,7 +30,7 @@ RUN yum install -y yum-utils && \
     yum-config-manager --enable rhel-7-server-extras-rpms && \
     yum-config-manager --enable rhel-7-server-optional-rpms && \
     yum-config-manager --enable rhel-server-rhscl-7-rpms && \
-    yum install -y --setopt=tsflags=nodocs gettext v8314 mongodb24-mongodb mongodb24 && \
+    yum install -y --setopt=tsflags=nodocs gettext v8314 mongodb24-mongodb mongodb24 iproute && \
     yum clean all && \
     mkdir -p /var/lib/mongodb/data && chown -R mongodb.mongodb /var/lib/mongodb/ && \
     test "$(id mongodb)" = "uid=184(mongodb) gid=998(mongodb) groups=998(mongodb)"
